@@ -10,27 +10,29 @@ public class BrickBehaviour : MonoBehaviour
     float hpoffset;
     public TMPro.TextMeshPro hpDisplay;
 
-    public Stack<GameObject> tower;
+    Stack<GameObject> tower;
+    MeshRenderer mr;
 
-    public GameObject topBrick;
-
-    public Material tempmat;
+    GameLogic gl;
 
     public void Start()
-    {
-        MinHP = GameLogic.instance.MinHP;
-        MaxHP = GameLogic.instance.MaxHP;
+    {   
+        mr = this.GetComponent<MeshRenderer>();
+        gl = GameLogic.instance;
+        MinHP = gl.MinHP;
+        MaxHP = gl.MaxHP;
         HitPoints = Random.Range((int)MinHP, (int)MaxHP);
         tower = new Stack<GameObject>();
         for (int i = 0; i < HitPoints; i++)
         {
-
-            GameObject cube = Instantiate(topBrick);
-            cube.transform.parent = this.transform.parent;
-            cube.transform.position = this.transform.position + Vector3.up * i * 2;//+Vector3.forward*40;
-            tower.Push(cube);
+            Transform cube = GameObject.CreatePrimitive(PrimitiveType.Cube).transform;
+            cube.parent = this.transform;
+            cube.localScale = Vector3.one;
+            cube.position = this.transform.position + Vector3.up * i * 2;
+            cube.GetComponent<MeshRenderer>().material = mr.material;
+            tower.Push(cube.gameObject);
         }
-        hpoffset = (MaxHP - MinHP) / 4;
+        hpoffset = (MaxHP - MinHP) / gl.difcolors.Length;
         ColorChange();
 
         hpDisplay.text = HitPoints + "";
@@ -39,57 +41,47 @@ public class BrickBehaviour : MonoBehaviour
 
     void ColorChange()
     {
-        if (HitPoints < MinHP + hpoffset)
+        for (int i = 1; i < gl.difcolors.Length; i++)
         {
-            GetComponent<MeshRenderer>().material = GameLogic.instance.colorDifficulty[0];
-            tempmat.color = GameLogic.instance.colorDifficulty[0].color;
-        }
-        else if (HitPoints < MinHP + hpoffset * 2)
-        {
-            GetComponent<MeshRenderer>().material = GameLogic.instance.colorDifficulty[1];
-            tempmat.color = GameLogic.instance.colorDifficulty[1].color;
-        }
-        else if (HitPoints <= MinHP * hpoffset * 3)
-        {
-            GetComponent<MeshRenderer>().material = GameLogic.instance.colorDifficulty[2];
-            tempmat.color = GameLogic.instance.colorDifficulty[2].color;
-        }
-        else
-        {
-            GetComponent<MeshRenderer>().material = GameLogic.instance.colorDifficulty[3];
-            tempmat.color = GameLogic.instance.colorDifficulty[3].color;
-        }
+            if (HitPoints < MinHP + hpoffset * i)
+            {
+                mr.material.color = gl.difcolors[i - 1];
+                return;
+            }
+            mr.material.color = gl.difcolors[gl.difcolors.Length - 1];
 
+        }
     }
 
 
     public void OnHit()
     {
-        int damage = GameLogic.instance.buffedDamage;
-
-        for (int i = 0; i < damage; i++)
-        {
-
-            Destroy(tower.Pop());
-
-        }
+        int damage = gl.buffedDamage;
 
         HitPoints -= damage;
         if (HitPoints <= 0)
             OnDeath();
         else
+        {
             hpDisplay.text = HitPoints + "";
+            for (int i = 0; i < damage; i++)
+            {
+
+                Destroy(tower.Pop());
+
+            }
+        }
 
         ColorChange();
 
-        GameLogic.instance.AddScore(damage);
+        gl.AddScore(damage);
 
     }
 
     public void OnDeath()
     {
         Destroy(gameObject);
-        if (GameLogic.instance.LineKillChance > Random.value)
+        if (gl.LineKillChance > Random.value)
         {
             if (transform.parent.childCount > 3)
                 Destroy(this.transform.parent.gameObject);

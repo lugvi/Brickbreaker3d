@@ -9,7 +9,7 @@ public class GameLogic : MonoBehaviour
     private void Awake() { instance = this; }
     #endregion
 
-    [Header("Prefabs")]
+    [Header("References")]
     public PlayerBehaviour player;
     public Transform wall;
 
@@ -18,7 +18,10 @@ public class GameLogic : MonoBehaviour
 
     public Rigidbody Bullet;
 
-    public Material[] colorDifficulty;
+    public Color32[] difcolors;
+
+    public Transform bulletContainer;
+
     [Header("UI")]
     public Text scoreText;
 
@@ -369,7 +372,7 @@ public class GameLogic : MonoBehaviour
     }
     public void Shoot()
     {
-        Rigidbody tempBullet = Instantiate(Bullet, Gun.transform.position, Quaternion.identity);
+        Rigidbody tempBullet = Instantiate(Bullet, Gun.transform.position, Quaternion.identity,bulletContainer);
         tempBullet.velocity = Gun.transform.up * bulletVelocity;
         Destroy(tempBullet.gameObject, 10f);
 
@@ -443,10 +446,10 @@ public class GameLogic : MonoBehaviour
     }
 
 
+    RaycastHit hitinfo;
 
     public void LateUpdate()
     {
-
 #if UNITY_EDITOR
         player.transform.Translate(Input.GetAxis("Horizontal") * Vector3.right * Time.deltaTime * playerSpeed);
 #endif
@@ -454,8 +457,16 @@ public class GameLogic : MonoBehaviour
 #if UNITY_ANDROID
 
         if (Input.GetMouseButton(0))
-        {
-            player.transform.Translate((Input.mousePosition.x > Screen.width / 2 ? 1 : -1) * Vector3.right * Time.deltaTime * playerSpeed);
+        {   
+            // Vector3 origin = cam.ScreenPointToRay(Input.mousePosition).origin;
+            // Vector3 direction = cam.ScreenPointToRay(Input.mousePosition).direction;
+            //Debug.DrawRay(origin,direction*100,Color.red,Time.deltaTime);
+
+            if(Physics.Raycast(cam.ScreenPointToRay(Input.mousePosition) ,out hitinfo,100,512))
+            {
+               player.transform.Translate((hitinfo.point.x-player.transform.position.x)*Time.deltaTime*playerSpeed,0,0);
+            }
+            // player.transform.Translate((Input.mousePosition.x > Screen.width / 2 ? 1 : -1) * Vector3.right * Time.deltaTime * playerSpeed);
         }
 
 #endif
