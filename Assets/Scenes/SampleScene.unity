@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657826, g: 0.49641263, b: 0.57481676, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1562,7 +1562,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 320837222}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -7.31, y: 3.95, z: 7.46}
+  m_LocalPosition: {x: -7.31, y: 3.95, z: 7.73}
   m_LocalScale: {x: 5.1956115, y: 4.7362, z: 7.9648666}
   m_Children: []
   m_Father: {fileID: 1609345792}
@@ -2589,13 +2589,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.29793307, y: -0, z: -0, w: 0.95458674}
-  m_LocalPosition: {x: -0.01, y: 12.37, z: -18.96}
+  m_LocalRotation: {x: 0.17738953, y: -0, z: -0, w: 0.9841407}
+  m_LocalPosition: {x: -0.01, y: 8.61, z: -23.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 34.667, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 20.435001, y: 0, z: 0}
 --- !u!1 &615487768
 GameObject:
   m_ObjectHideFlags: 0
@@ -3377,7 +3377,7 @@ MonoBehaviour:
   DamageUpgradeButton: {fileID: 187591270}
   FirerateUpgradeButton: {fileID: 1207514493}
   minHP: 1
-  maxHP: 45
+  maxHP: 10
   wallSpeed: 12
   wallSpawnDelay: 2.8
   bulletVelocity: 33.7

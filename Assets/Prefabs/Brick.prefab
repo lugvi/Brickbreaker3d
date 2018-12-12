@@ -285,6 +285,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitPoints: 0
   hpDisplay: {fileID: 114027598594469614}
+  topBrick: {fileID: 1172137558003760, guid: c486bcff8e955594d9106956f4e92097, type: 2}
+  tempmat: {fileID: 2100000, guid: 147bf79902b734c419ddc4b082e9c043, type: 2}
 --- !u!222 &222802374993291564
 CanvasRenderer:
   m_ObjectHideFlags: 1
