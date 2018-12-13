@@ -22,6 +22,8 @@ public class GameLogic : MonoBehaviour
 
     public Transform bulletContainer;
 
+    public Camera cam;
+
     [Header("UI")]
     public Text scoreText;
 
